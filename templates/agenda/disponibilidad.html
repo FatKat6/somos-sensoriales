@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}Mis horarios{% endblock %}
+{% block contenido %}
+<h1 class="h3 mb-3">Mis horarios</h1>
+<div class="card mb-4">
+  <div class="card-body">
+    <h2 class="h5">Publicar un bloque de 45 minutos</h2>
+    <form method="post" class="row g-2 align-items-end">
+      {% csrf_token %}
+      <div class="col-sm-8">
+        <label class="form-label" for="{{ form.inicio.id_for_label }}">{{ form.inicio.label }}</label>
+        {{ form.inicio }}
+        {% for error in form.inicio.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-sm-4"><button class="btn btn-primary w-100">Publicar</button></div>
+    </form>
+  </div>
+</div>
+
+<h2 class="h5">Próximos bloques</h2>
+<ul class="list-group">
+  {% for bloque in bloques %}
+  <li class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <span>{{ bloque.inicio|date:"l d-m-Y H:i" }} a {{ bloque.fin|time:"H:i" }}</span>
+    {% if bloque.disponible %}
+      <span class="d-flex gap-2 align-items-center">
+        <span class="badge text-bg-success">Libre</span>
+        <form method="post" action="{% url 'agenda:eliminar_bloque' bloque.id %}">
+          {% csrf_token %}<button class="btn btn-outline-danger btn-sm">Eliminar</button>
+        </form>
+      </span>
+    {% else %}
+      <span class="badge text-bg-secondary">Reservado</span>
+    {% endif %}
+  </li>
+  {% empty %}
+  <li class="list-group-item">Aún no publicas horarios.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

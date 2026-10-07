@@ -1,0 +1,44 @@
+@startuml
+!include _estilo.iuml
+|Paciente|
+start
+:Iniciar sesión;
+if (¿Cuenta bloqueada por 5 intentos fallidos?) then (sí)
+  :Ver mensaje "intenta en 15 minutos";
+  stop
+else (no)
+endif
+:Elegir especialista;
+|Sistema|
+:Mostrar solo bloques futuros y libres;
+|Paciente|
+:Elegir bloque y escribir motivo (opcional);
+|Sistema|
+if (¿El bloque sigue libre?) then (no)
+  :Mostrar "ese horario ya no está disponible";
+  |Paciente|
+  :Elegir otro horario;
+  detach
+else (sí)
+  |Sistema|
+  :Marcar bloque ocupado y crear cita Solicitada;
+  fork
+    :Avisar al especialista\n(app y correo);
+  fork again
+    :Guardar registro de auditoría;
+  end fork
+endif
+|Especialista|
+:Revisar solicitud en "Mi agenda";
+if (¿Acepta la hora?) then (sí)
+  :Confirmar;
+  |Sistema|
+  :Cambiar a Confirmada y avisar al paciente;
+else (no)
+  |Especialista|
+  :Rechazar indicando motivo;
+  |Sistema|
+  :Cambiar a Rechazada, liberar bloque\ny avisar al paciente;
+endif
+stop
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+!include _estilo.iuml
+hide empty description
+[*] --> Solicitada : paciente pide hora\n[bloque libre y futuro]
+Solicitada --> Confirmada : especialista confirma
+Solicitada --> Rechazada : especialista rechaza\n[con motivo]
+Solicitada --> Cancelada : paciente cancela [≥ 24 h]\no especialista cancela [con motivo]
+Confirmada --> Cancelada : paciente cancela [≥ 24 h]\no especialista cancela [con motivo]
+Confirmada --> Confirmada : especialista reagenda\n[nuevo bloque libre]
+Solicitada --> Solicitada : especialista reagenda
+Rechazada --> [*]
+Cancelada --> [*]
+Solicitada : entrada / bloque.disponible = false
+Solicitada : entrada / avisar al especialista
+Confirmada : entrada / avisar al paciente
+Rechazada : entrada / liberar bloque, avisar al paciente
+Cancelada : entrada / liberar bloque, avisar a la otra persona
+note right of Confirmada
+  Error: si el paciente intenta cancelar
+  con menos de 24 h, se muestra un mensaje
+  y la cita sigue igual (ErrorCita).
+end note
+@enduml

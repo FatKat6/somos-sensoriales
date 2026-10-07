@@ -1,0 +1,4 @@
+{% if cita.estado == "SOLICITADA" %}<span class="badge text-bg-warning">Solicitada</span>
+{% elif cita.estado == "CONFIRMADA" %}<span class="badge text-bg-success">Confirmada</span>
+{% elif cita.estado == "RECHAZADA" %}<span class="badge text-bg-secondary">Rechazada</span>
+{% else %}<span class="badge text-bg-danger">Cancelada</span>{% endif %}

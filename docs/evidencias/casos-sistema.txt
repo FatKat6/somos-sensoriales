@@ -1,0 +1,13 @@
+Casos de prueba de sistema ejecutados en el navegador (Chromium)
+Entorno: igual a producción (PRODUCCION=True, PostgreSQL 16, Gunicorn, HTTPS)
+
+OK    CP-01 Registro con aceptación del uso de datos. sin la casilla no se crea; con la casilla entra a Mis citas
+OK    CP-02 Pedir hora. cita en estado Solicitada
+OK    CP-03 Confirmar y avisar al paciente. el paciente ve el aviso 'fue confirmada'
+OK    CP-04 Paciente no puede cancelar con menos de 24 h. mensaje de error y la cita sigue Confirmada
+OK    CP-05 Paciente intenta entrar a la agenda del especialista. HTTP 403
+OK    CP-06 Bloqueo de 15 minutos tras 5 intentos fallidos. 
+OK    CP-07 Agenda en celular de 390 px sin scroll horizontal. ancho de la página: 390 px
+OK    CP-08 Eliminar mis datos personales. después ya no puede entrar con ese correo
+
+Resultado: 8/8 casos exitosos

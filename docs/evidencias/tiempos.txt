@@ -1,0 +1,10 @@
+Prueba: tests/medir_tiempos.py contra el entorno igual a producción (PostgreSQL 16 + Gunicorn 3 procesos + HTTPS)
+Fecha: 05-10-2026 20:55
+
+Peticiones: 800  |  Usuarios simultáneos: 10  |  Errores: 0
+Promedio: 239 ms  |  Percentil 95: 297 ms  |  Máximo: 373 ms
+  /agenda/especialistas/       promedio   237 ms   p95   294 ms
+  /agenda/especialistas/2/     promedio   244 ms   p95   301 ms
+  /agenda/mis-citas/           promedio   241 ms   p95   293 ms
+  /avisos/                     promedio   233 ms   p95   299 ms
+RNF-01: CUMPLE (meta: percentil 95 menor a 1.000 ms)

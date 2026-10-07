@@ -1,0 +1,36 @@
+Name                                        Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------
+agenda/__init__.py                              0      0   100%
+agenda/admin.py                                19      0   100%
+agenda/apps.py                                  5      0   100%
+agenda/forms.py                                26      0   100%
+agenda/management/__init__.py                   0      0   100%
+agenda/management/commands/__init__.py          0      0   100%
+agenda/management/commands/cargar_demo.py      27      0   100%
+agenda/models.py                              103      6    94%   37, 65, 94, 145, 157, 173
+agenda/senales.py                               2      0   100%
+agenda/urls.py                                  4      0   100%
+agenda/views.py                               134     13    90%   28-30, 65-66, 139-140, 156-157, 177-178, 203-204
+config/__init__.py                              0      0   100%
+config/settings.py                             50     10    80%   37, 41, 180-187
+config/urls.py                                  5      0   100%
+notificaciones/__init__.py                      0      0   100%
+notificaciones/admin.py                         5      0   100%
+notificaciones/apps.py                          7      0   100%
+notificaciones/avisos.py                       13      0   100%
+notificaciones/models.py                       13      1    92%   21
+notificaciones/receptores.py                   14      0   100%
+notificaciones/urls.py                          4      0   100%
+notificaciones/views.py                         9      0   100%
+usuarios/__init__.py                            0      0   100%
+usuarios/admin.py                              20      0   100%
+usuarios/apps.py                                7      0   100%
+usuarios/auditoria.py                          16      0   100%
+usuarios/forms.py                              59      2    97%   24, 84
+usuarios/models.py                             40      1    98%   82
+usuarios/permisos.py                            4      0   100%
+usuarios/receptores.py                          6      0   100%
+usuarios/urls.py                                4      0   100%
+usuarios/views.py                              75      1    99%   19
+-------------------------------------------------------------------------
+TOTAL                                         671     34    95%

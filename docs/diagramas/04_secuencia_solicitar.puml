@@ -1,0 +1,41 @@
+@startuml
+!include _estilo.iuml
+autonumber
+actor Paciente
+participant ":horarios.html\n(plantilla)" as V
+participant ":horarios()\n(views.py)" as C
+participant ":Cita\n(models.py)" as M
+database ":Base de datos\n(PostgreSQL)" as BD
+participant ":cita_cambiada\n(señal)" as S
+participant ":avisar_cambio_de_cita" as N
+participant ":auditar_cambio_de_cita" as AU
+
+Paciente -> V : elige especialista
+V -> C : GET /agenda/especialistas/{id}/
+C -> BD : SELECT bloques WHERE disponible = true AND inicio > ahora
+BD --> C : bloques libres
+C --> V : render(bloques)
+loop por cada bloque libre
+  V -> V : mostrar tarjeta con fecha, hora\ny botón "Pedir esta hora"
+end
+Paciente -> V : "Pedir esta hora" (bloque, motivo)
+V -> C : POST bloque_id, motivo + token CSRF
+C -> C : verificar_rol(PACIENTE)
+C -> M : Cita.solicitar(paciente, bloque_id, motivo)
+M -> BD : UPDATE bloque SET disponible = false\nWHERE id = ? AND disponible = true
+alt filas cambiadas = 1 (el bloque estaba libre)
+  M -> BD : INSERT cita (SOLICITADA)
+  M -> S : send(cita, "solicitada", paciente)
+  loop por cada observador suscrito
+    S -> N : avisar_cambio_de_cita()
+    N -> BD : INSERT notificación (+ correo)
+    S -> AU : auditar_cambio_de_cita()
+    AU -> BD : INSERT registro de auditoría
+  end
+  M --> C : cita
+  C --> V : redirect a "Mis citas" + "Solicitud enviada"
+else filas cambiadas = 0 (otra persona lo tomó antes)
+  M --> C : ErrorCita("Ese horario ya no está disponible")
+  C --> V : mensaje de error y lista actualizada
+end
+@enduml

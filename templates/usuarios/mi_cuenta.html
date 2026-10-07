@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block titulo %}Mi cuenta{% endblock %}
+{% block contenido %}
+<h1 class="h3 mb-3">Mi cuenta</h1>
+<div class="card mb-4">
+  <div class="card-body">
+    <p class="mb-1"><strong>Nombre:</strong> {{ user.get_full_name }}</p>
+    <p class="mb-1"><strong>Correo:</strong> {{ user.email }}</p>
+    <p class="mb-1"><strong>Rol:</strong> {{ user.get_rol_display }}</p>
+    {% if user.rol == "PACIENTE" %}
+      <p class="mb-1"><strong>RUT:</strong> {{ user.rut }}</p>
+      {% if user.nombre_tutor %}<p class="mb-1"><strong>Tutor:</strong> {{ user.nombre_tutor }}</p>{% endif %}
+      <p class="mb-0"><strong>Aceptó el uso de datos el:</strong> {{ user.fecha_consentimiento|date:"d-m-Y H:i" }}</p>
+    {% endif %}
+  </div>
+</div>
+
+{% if user.rol == "PACIENTE" %}
+<div class="card border-danger">
+  <div class="card-body">
+    <h2 class="h5 text-danger">Eliminar mis datos personales</h2>
+    <p>Se borran tus datos personales y se cancelan tus citas futuras. Las citas pasadas quedan sin tu nombre. Esta acción no se puede deshacer.</p>
+    <form method="post" action="{% url 'usuarios:eliminar_cuenta' %}" class="row g-2">
+      {% csrf_token %}
+      <div class="col-sm-8">
+        <input class="form-control" name="confirmacion" placeholder="Escribe ELIMINAR para confirmar" required>
+      </div>
+      <div class="col-sm-4"><button class="btn btn-danger w-100">Eliminar mis datos</button></div>
+    </form>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

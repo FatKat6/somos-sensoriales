@@ -1,0 +1,43 @@
+@startuml
+!include _estilo.iuml
+skinparam componentStyle rectangle
+actor "Paciente / Especialista" as U
+actor Administrador as AD
+package "Somos Sensoriales (Django 5.2)" {
+  [Plantillas HTML\n+ Bootstrap 5] as VIS
+  package "usuarios" {
+    [Login con bloqueo,\nregistro y consentimiento] as USU
+    [verificar_rol()\n(control de acceso)] as ROL
+    [RegistroAuditoria\n(solo lectura)] as AUD
+  }
+  package "agenda" {
+    [Vistas\n(views.py)] as CTRL
+    [Modelos y reglas:\nCentro, Bloque, Cita] as MOD
+    [Señal cita_cambiada] as SEN
+  }
+  package "notificaciones" {
+    [Observador de avisos] as OBS
+    [crear_aviso()\nApp / Correo] as FAC
+  }
+  [Panel admin\n(Django)] as ADM
+  [Middleware de seguridad\nCSRF · CSP · sesiones] as MID
+}
+database "PostgreSQL" as DB
+cloud "Correo (SMTP)" as SMTP
+U --> MID : HTTPS
+AD --> MID : HTTPS
+MID --> VIS
+VIS --> CTRL
+VIS --> USU
+CTRL --> ROL
+CTRL --> MOD
+MOD --> SEN : publica
+SEN --> OBS
+SEN --> AUD : observador 2
+OBS --> FAC
+USU --> AUD
+FAC --> SMTP
+MOD --> DB : ORM (consultas\nparametrizadas)
+AUD --> DB
+ADM --> MOD
+@enduml

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}Pedir hora{% endblock %}
+{% block contenido %}
+<h1 class="h3 mb-3">Pedir hora</h1>
+<p class="text-muted">Elige un especialista para ver sus horarios libres.</p>
+<div class="row g-3">
+  {% for especialista in especialistas %}
+  <div class="col-sm-6 col-lg-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="h5">{{ especialista }}</h2>
+        <p class="text-muted">{{ especialista.especialidad }}</p>
+        <a class="btn btn-primary" href="{% url 'agenda:horarios' especialista.id %}">Ver horarios</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>Por ahora no hay especialistas disponibles.</p>
+  {% endfor %}
+</div>
+{% endblock %}

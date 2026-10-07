@@ -1,0 +1,11 @@
+/* Estilos propios: solo el color del centro. Todo lo demás es Bootstrap. */
+.bg-marca {
+  background-color: #2f6f73;
+}
+.btn-primary {
+  --bs-btn-bg: #2f6f73;
+  --bs-btn-border-color: #2f6f73;
+  --bs-btn-hover-bg: #245759;
+  --bs-btn-hover-border-color: #245759;
+  --bs-btn-active-bg: #1d4648;
+}

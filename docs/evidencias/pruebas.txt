@@ -1,0 +1,73 @@
+Pruebas automáticas · python manage.py test tests -v2
+
+test_especialista_cancela_con_menos_de_24_horas (tests.test_agenda.CancelarCitaTest.test_especialista_cancela_con_menos_de_24_horas) ... ok
+test_paciente_cancela_con_mas_de_24_horas (tests.test_agenda.CancelarCitaTest.test_paciente_cancela_con_mas_de_24_horas) ... ok
+test_paciente_no_cancela_con_menos_de_24_horas (tests.test_agenda.CancelarCitaTest.test_paciente_no_cancela_con_menos_de_24_horas) ... ok
+test_cargar_demo_crea_usuarios_y_bloques (tests.test_agenda.DatosDeEjemploTest.test_cargar_demo_crea_usuarios_y_bloques) ... ok
+test_eliminar_bloque_libre (tests.test_agenda.DisponibilidadTest.test_eliminar_bloque_libre) ... ok
+test_no_elimina_bloque_con_cita (tests.test_agenda.DisponibilidadTest.test_no_elimina_bloque_con_cita) ... ok
+test_no_publica_bloques_que_se_cruzan (tests.test_agenda.DisponibilidadTest.test_no_publica_bloques_que_se_cruzan) ... ok
+test_no_publica_en_el_pasado (tests.test_agenda.DisponibilidadTest.test_no_publica_en_el_pasado) ... ok
+test_publicar_bloque_de_45_minutos (tests.test_agenda.DisponibilidadTest.test_publicar_bloque_de_45_minutos) ... ok
+test_especialista_ve_sus_pantallas (tests.test_agenda.PantallasTest.test_especialista_ve_sus_pantallas) ... ok
+test_inicio_redirige_segun_rol (tests.test_agenda.PantallasTest.test_inicio_redirige_segun_rol) ... ok
+test_paciente_ve_sus_pantallas (tests.test_agenda.PantallasTest.test_paciente_ve_sus_pantallas) ... ok
+test_salud (tests.test_agenda.PantallasTest.test_salud) ... ok
+Prueba de regresión del defecto DEF-01. ... ok
+test_no_reagenda_a_bloque_ocupado (tests.test_agenda.ReagendarTest.test_no_reagenda_a_bloque_ocupado) ... ok
+test_pagina_reagendar_muestra_bloques_libres (tests.test_agenda.ReagendarTest.test_pagina_reagendar_muestra_bloques_libres) ... ok
+test_reagendar_mueve_la_cita_y_libera_el_bloque_anterior (tests.test_agenda.ReagendarTest.test_reagendar_mueve_la_cita_y_libera_el_bloque_anterior) ... ok
+test_confirmar (tests.test_agenda.ResponderCitaTest.test_confirmar) ... ok
+test_no_se_confirma_una_cita_cancelada (tests.test_agenda.ResponderCitaTest.test_no_se_confirma_una_cita_cancelada) ... ok
+test_rechazar_libera_el_bloque (tests.test_agenda.ResponderCitaTest.test_rechazar_libera_el_bloque) ... ok
+test_rechazar_sin_motivo_no_cambia (tests.test_agenda.ResponderCitaTest.test_rechazar_sin_motivo_no_cambia) ... ok
+test_no_permite_bloque_pasado (tests.test_agenda.SolicitarCitaTest.test_no_permite_bloque_pasado) ... ok
+RF-03 / CA-01: el segundo paciente debe elegir otro horario. ... ok
+test_solicitar_cita_ocupa_el_bloque (tests.test_agenda.SolicitarCitaTest.test_solicitar_cita_ocupa_el_bloque) ... ok
+test_solicitar_desde_la_pagina (tests.test_agenda.SolicitarCitaTest.test_solicitar_desde_la_pagina) ... ok
+test_canal_desconocido (tests.test_patrones.FactoryTest.test_canal_desconocido) ... ok
+test_crea_el_aviso_segun_el_canal (tests.test_patrones.FactoryTest.test_crea_el_aviso_segun_el_canal) ... ok
+test_al_confirmar_se_avisa_al_paciente (tests.test_patrones.ObserverTest.test_al_confirmar_se_avisa_al_paciente) ... ok
+test_al_solicitar_se_avisa_al_especialista (tests.test_patrones.ObserverTest.test_al_solicitar_se_avisa_al_especialista) ... ok
+test_cada_cambio_queda_en_la_auditoria (tests.test_patrones.ObserverTest.test_cada_cambio_queda_en_la_auditoria) ... ok
+RNF-05: los correos no deben contener el motivo de consulta. ... ok
+test_siempre_existe_un_solo_centro (tests.test_patrones.SingletonTest.test_siempre_existe_un_solo_centro) ... ok
+test_mi_agenda_responde_en_menos_de_1_segundo (tests.test_rendimiento.TiempoDeRespuestaTest.test_mi_agenda_responde_en_menos_de_1_segundo) ... ok
+test_cookie_csrf_es_httponly (tests.test_seguridad.CabecerasDeSeguridadTest.test_cookie_csrf_es_httponly) ... ok
+DEF-04 ... ok
+test_respuesta_incluye_content_security_policy (tests.test_seguridad.CabecerasDeSeguridadTest.test_respuesta_incluye_content_security_policy) ... ok
+OWASP A02: la contraseña nunca se guarda en texto plano. ... ok
+test_formularios_exigen_token_csrf (tests.test_seguridad.ContrasenasYFormulariosTest.test_formularios_exigen_token_csrf) ... ok
+OWASP A03: el ORM de Django usa consultas parametrizadas. ... ok
+RNF-03 / CA-06 ... ok
+OWASP A03 (inyección/XSS): Django escapa el HTML en las plantillas. ... ok
+test_especialista_no_confirma_cita_de_otro_especialista (tests.test_seguridad.ControlDeAccesoTest.test_especialista_no_confirma_cita_de_otro_especialista) ... ok
+Cambiar el número de la URL no sirve para tocar citas de otra persona. ... ok
+test_paciente_no_entra_a_la_agenda_del_especialista (tests.test_seguridad.ControlDeAccesoTest.test_paciente_no_entra_a_la_agenda_del_especialista) ... ok
+test_paciente_no_entra_al_panel_admin (tests.test_seguridad.ControlDeAccesoTest.test_paciente_no_entra_al_panel_admin) ... ok
+test_paciente_no_puede_confirmar (tests.test_seguridad.ControlDeAccesoTest.test_paciente_no_puede_confirmar) ... ok
+test_sin_sesion_redirige_al_login (tests.test_seguridad.ControlDeAccesoTest.test_sin_sesion_redirige_al_login) ... ok
+RNF-05: el formulario de citas del admin no incluye el motivo. ... ok
+RF-12 ... ok
+RF-14 / Ley 21.459 ... ok
+test_login_fallido_queda_registrado (tests.test_seguridad.PrivacidadYAuditoriaTest.test_login_fallido_queda_registrado) ... ok
+test_eliminar_datos_cancela_citas_y_borra_datos (tests.test_usuarios.EliminarDatosTest.test_eliminar_datos_cancela_citas_y_borra_datos) ... ok
+test_sin_confirmacion_no_elimina (tests.test_usuarios.EliminarDatosTest.test_sin_confirmacion_no_elimina) ... ok
+DEF-05: un correo que no existe se bloquea igual que uno real. ... ok
+test_bloqueo_tras_5_intentos (tests.test_usuarios.LoginTest.test_bloqueo_tras_5_intentos) ... ok
+test_cerrar_sesion_solo_por_post (tests.test_usuarios.LoginTest.test_cerrar_sesion_solo_por_post) ... ok
+test_login_correcto (tests.test_usuarios.LoginTest.test_login_correcto) ... ok
+test_logout (tests.test_usuarios.LoginTest.test_logout) ... ok
+test_mensaje_generico_si_falla (tests.test_usuarios.LoginTest.test_mensaje_generico_si_falla) ... ok
+test_contrasena_comun_o_solo_numeros_no_crea_cuenta (tests.test_usuarios.RegistroTest.test_contrasena_comun_o_solo_numeros_no_crea_cuenta) ... ok
+test_contrasena_corta_no_crea_cuenta (tests.test_usuarios.RegistroTest.test_contrasena_corta_no_crea_cuenta) ... ok
+test_correo_repetido (tests.test_usuarios.RegistroTest.test_correo_repetido) ... ok
+test_registro_correcto_guarda_consentimiento (tests.test_usuarios.RegistroTest.test_registro_correcto_guarda_consentimiento) ... ok
+test_rut_invalido_no_crea_cuenta (tests.test_usuarios.RegistroTest.test_rut_invalido_no_crea_cuenta) ... ok
+test_sin_aceptar_datos_no_crea_cuenta (tests.test_usuarios.RegistroTest.test_sin_aceptar_datos_no_crea_cuenta) ... ok
+test_rut_con_digito_k (tests.test_usuarios.RutTest.test_rut_con_digito_k) ... ok
+test_rut_correcto (tests.test_usuarios.RutTest.test_rut_correcto) ... ok
+test_rut_incorrecto (tests.test_usuarios.RutTest.test_rut_incorrecto) ... ok
+
+Ran 68 tests in 44.990s
+OK

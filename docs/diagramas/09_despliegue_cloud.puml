@@ -1,0 +1,23 @@
+@startuml
+!include _estilo.iuml
+actor "Equipo de desarrollo" as DEV
+actor "Pacientes y especialistas\n(computador o celular)" as USR
+cloud "GitHub (SaaS)" {
+  node "Repositorio Git\nramas main / develop / feature" as REPO
+  node "GitHub Actions (CI)\npruebas · cobertura ≥ 80 %\nBandit · pip-audit" as CI
+}
+cloud "Render (PaaS) · región Virginia" {
+  node "Servicio web\nGunicorn + Django\n(PRODUCCION=True, HTTPS, HSTS)" as WEB
+  database "PostgreSQL gestionado" as PG
+  node "Health check\n/salud/" as HC
+}
+cloud "Infraestructura del proveedor (IaaS)\nservidores, red, discos" as IAAS
+DEV --> REPO : git push / pull request
+REPO --> CI : ejecuta el pipeline
+CI --> WEB : despliega solo si\ntodo pasó (checksPass)
+USR --> WEB : HTTPS
+WEB --> PG : red interna
+HC ..> WEB : monitorea cada minuto
+WEB ..> IAAS : se ejecuta sobre
+PG ..> IAAS
+@enduml

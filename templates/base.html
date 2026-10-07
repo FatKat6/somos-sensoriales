@@ -1,0 +1,54 @@
+{% load static %}<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Somos Sensoriales{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="bg-light">
+
+{% if user.is_authenticated %}
+<nav class="navbar navbar-expand-md navbar-dark bg-marca mb-4">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'inicio' %}">Somos Sensoriales</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+            aria-controls="menu" aria-expanded="false" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav me-auto">
+        {% if user.rol == "PACIENTE" %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'agenda:mis_citas' %}">Mis citas</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'agenda:especialistas' %}">Pedir hora</a></li>
+        {% elif user.rol == "ESPECIALISTA" %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'agenda:mi_agenda' %}">Mi agenda</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'agenda:disponibilidad' %}">Mis horarios</a></li>
+        {% endif %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'notificaciones:lista' %}">Avisos</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'usuarios:mi_cuenta' %}">Mi cuenta</a></li>
+      </ul>
+      <span class="navbar-text me-3">{{ user }} ({{ user.get_rol_display }})</span>
+      <form method="post" action="{% url 'usuarios:logout' %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+      </form>
+    </div>
+  </div>
+</nav>
+{% endif %}
+
+<main class="container pb-5">
+  {% for mensaje in messages %}
+    <div class="alert {% if mensaje.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" role="alert">
+      {{ mensaje }}
+    </div>
+  {% endfor %}
+
+  {% block contenido %}{% endblock %}
+</main>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

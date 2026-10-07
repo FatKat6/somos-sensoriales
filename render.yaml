@@ -1,0 +1,31 @@
+# Configuración de Render (PaaS). Crea el sitio web y la base de datos PostgreSQL.
+services:
+  - type: web
+    name: somos-sensoriales
+    runtime: python
+    plan: free
+    region: virginia
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application
+    healthCheckPath: /salud/
+    autoDeployTrigger: checksPass   # solo despliega si el CI de GitHub pasó
+    envVars:
+      - key: PRODUCCION
+        value: "True"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true          # Render crea una clave al azar
+      - key: DATABASE_URL
+        fromDatabase:
+          name: somos-sensoriales-db
+          property: connectionString
+      - key: CARGAR_DEMO
+        value: "1"                   # cambiar a "0" cuando se usen datos reales
+      - key: DEMO_PASSWORD
+        sync: false                  # se escribe a mano en el panel de Render
+
+databases:
+  - name: somos-sensoriales-db
+    plan: free
+    region: virginia
+    databaseName: somos_sensoriales
+    user: somos

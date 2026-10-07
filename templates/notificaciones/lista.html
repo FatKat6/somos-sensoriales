@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titulo %}Avisos{% endblock %}
+{% block contenido %}
+<h1 class="h3 mb-3">Avisos</h1>
+<ul class="list-group">
+  {% for aviso in avisos %}
+  <li class="list-group-item d-flex justify-content-between gap-2">
+    <span>{% if not aviso.leida %}<span class="badge text-bg-primary me-1">Nuevo</span>{% endif %}{{ aviso.mensaje }}</span>
+    <small class="text-muted text-nowrap">{{ aviso.fecha|date:"d-m H:i" }}</small>
+  </li>
+  {% empty %}
+  <li class="list-group-item">No tienes avisos.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

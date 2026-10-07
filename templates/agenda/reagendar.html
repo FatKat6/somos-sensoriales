@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block titulo %}Reagendar cita{% endblock %}
+{% block contenido %}
+<h1 class="h3">Reagendar cita</h1>
+<p>Paciente: <strong>{{ cita.paciente }}</strong> · Hora actual: {{ cita.bloque.inicio|date:"l d-m-Y H:i" }}</p>
+<form method="post" class="card card-body">
+  {% csrf_token %}
+  <label class="form-label" for="bloque_id">Nuevo horario</label>
+  <select class="form-select mb-3" id="bloque_id" name="bloque_id" required>
+    {% for bloque in bloques %}
+      <option value="{{ bloque.id }}">{{ bloque.inicio|date:"l d-m-Y H:i" }}</option>
+    {% empty %}
+      <option value="">No tienes horarios libres</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-primary">Mover la cita</button>
+</form>
+<a class="btn btn-link mt-2" href="{% url 'agenda:mi_agenda' %}">← Volver a mi agenda</a>
+{% endblock %}

@@ -1,0 +1,45 @@
+@startuml
+!include _estilo.iuml
+hide empty members
+title Patrones de diseño implementados (versión simple)
+
+package "MVC (Django: Modelo - Plantilla - Vista)" {
+  class "Modelos\n(models.py)" as M
+  class "Vistas = controladores\n(views.py)" as C
+  class "Plantillas HTML\n(templates/)" as V
+  C --> M : usa
+  C --> V : muestra
+}
+
+package "Singleton" {
+  class CentroTerapeutico <<Singleton>> {
+    + save()  {guarda siempre con id = 1}
+    + {static} obtener(): CentroTerapeutico
+  }
+}
+
+package "Observer (señales de Django)" {
+  class Cita <<Publicador>> {
+    + confirmar() / rechazar() / cancelar() ...
+  }
+  class "cita_cambiada\n(Signal)" as S <<Evento>>
+  class "avisar_cambio_de_cita()\nnotificaciones/receptores.py" as O1 <<Observador>>
+  class "auditar_cambio_de_cita()\nusuarios/receptores.py" as O2 <<Observador>>
+  Cita --> S : send()
+  S --> O1 : @receiver
+  S --> O2 : @receiver
+}
+
+package "Factory (versión simple)" {
+  class "crear_aviso(canal)" as F <<Fábrica>>
+  class AvisoApp {
+    + enviar(usuario, texto)
+  }
+  class AvisoCorreo {
+    + enviar(usuario, texto)
+  }
+  F ..> AvisoApp : "app"
+  F ..> AvisoCorreo : "correo"
+}
+O1 --> F : pide un aviso\npor cada canal
+@enduml

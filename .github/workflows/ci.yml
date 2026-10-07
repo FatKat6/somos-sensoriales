@@ -1,0 +1,39 @@
+﻿# Integración continua (CI): GitHub ejecuta estos pasos en cada push y pull request.
+# Si algo falla, el commit queda en rojo y Render NO despliega (ver render.yaml).
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements-dev.txt
+
+      - name: Revisar la configuración de Django
+        run: python manage.py check
+
+      - name: Ejecutar las pruebas y medir cobertura
+        run: coverage run manage.py test tests
+
+      - name: Exigir al menos 80 % de cobertura
+        run: coverage report --fail-under=80
+
+      - name: Buscar problemas de seguridad en el código (Bandit)
+        run: bandit -r usuarios agenda notificaciones config -x "*/migrations/*"
+
+      - name: Buscar librerías con vulnerabilidades conocidas (pip-audit)
+        run: pip-audit -r requirements.txt

@@ -1,0 +1,20 @@
+@startuml
+!include _estilo.iuml
+skinparam linetype polyline
+object "p: Paciente" as p
+object "v: horarios.html" as v
+object "c: horarios()" as c
+object "m: Cita" as m
+object "bd: BaseDeDatos" as bd
+object "s: cita_cambiada" as s
+object "n: avisar_cambio_de_cita" as n
+object "a: auditar_cambio_de_cita" as a
+p --> v : 1: elegirEspecialista()\n3: pedirHora()
+v --> c : 2: GET bloques\n3.1: POST solicitud
+c --> bd : 2.1: buscarBloquesLibres()
+c --> m : 3.2: solicitar()
+m --> bd : 3.3: marcarBloqueOcupado()\n3.4: [libre] crearCita()
+m --> s : 3.5: send()
+s --> n : 3.6: avisar()
+s --> a : 3.7: auditar()
+@enduml

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block titulo %}Mi agenda{% endblock %}
+{% block contenido %}
+<h1 class="h3">Mi agenda</h1>
+<p class="text-muted">Tienes {{ pendientes }} solicitud(es) por responder.</p>
+
+{% for cita in citas %}
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex flex-wrap justify-content-between gap-2">
+      <div>
+        <h2 class="h6 mb-1">{{ cita.bloque.inicio|date:"l d-m-Y H:i" }}</h2>
+        <p class="mb-1">{{ cita.paciente }}{% if cita.paciente.nombre_tutor %} · Tutor: {{ cita.paciente.nombre_tutor }}{% endif %}</p>
+        {% if cita.motivo_consulta %}<p class="small mb-1">Motivo de consulta: {{ cita.motivo_consulta }}</p>{% endif %}
+        {% if cita.motivo_respuesta %}<p class="small text-muted mb-0">Respuesta: {{ cita.motivo_respuesta }}</p>{% endif %}
+      </div>
+      <div>{% include "_estado.html" %}</div>
+    </div>
+
+    {% if cita.estado == "SOLICITADA" %}
+    <div class="row g-2 mt-2">
+      <div class="col-sm-3">
+        <form method="post" action="{% url 'agenda:confirmar' cita.id %}">
+          {% csrf_token %}<button class="btn btn-success btn-sm w-100">Confirmar</button>
+        </form>
+      </div>
+      <div class="col-sm-9">
+        <form method="post" action="{% url 'agenda:rechazar' cita.id %}" class="input-group input-group-sm">
+          {% csrf_token %}
+          <input class="form-control" name="motivo" placeholder="Motivo del rechazo" maxlength="300" required>
+          <button class="btn btn-outline-secondary">Rechazar</button>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if cita.esta_activa %}
+    <div class="row g-2 mt-1">
+      <div class="col-sm-3">
+        <a class="btn btn-outline-primary btn-sm w-100" href="{% url 'agenda:reagendar' cita.id %}">Reagendar</a>
+      </div>
+      <div class="col-sm-9">
+        <form method="post" action="{% url 'agenda:cancelar' cita.id %}" class="input-group input-group-sm">
+          {% csrf_token %}
+          <input class="form-control" name="motivo" placeholder="Motivo de la cancelación" maxlength="300" required>
+          <button class="btn btn-outline-danger">Cancelar</button>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% empty %}
+<p>No tienes citas desde hoy en adelante.</p>
+{% endfor %}
+{% endblock %}

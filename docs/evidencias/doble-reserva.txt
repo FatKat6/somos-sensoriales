@@ -1,0 +1,12 @@
+Prueba: tests/doble_reserva_simultanea.py contra el entorno igual a producción (PostgreSQL 16 + Gunicorn 3 procesos + HTTPS)
+Fecha: 05-10-2026 20:40
+
+Los 10 pacientes pedirán el bloque 2 al mismo tiempo...
+Solicitudes aceptadas: 1  |  rechazadas con mensaje: 9
+RF-03: CUMPLE (una sola cita)
+
+Revisión en la base de datos (citas por bloque):
+         1 |     1
+         2 |     1
+
+Errores 500 en el servidor: 0

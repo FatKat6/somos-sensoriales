@@ -1,0 +1,37 @@
+@startuml
+!include _estilo.iuml
+left to right direction
+actor "Paciente / Tutor" as P
+actor "Especialista" as E
+actor "Administrador" as A
+rectangle "Sistema Somos Sensoriales (v1)" {
+  usecase "CU-10 Iniciar sesión" as CU10
+  usecase "CU-11 Registrarse\ncon consentimiento" as CU11
+  usecase "CU-01 Solicitar cita" as CU01
+  usecase "CU-02 Cancelar cita" as CU02
+  usecase "CU-07 Revisar agenda /\nmis citas" as CU07
+  usecase "CU-03 Administrar\ndisponibilidad" as CU03
+  usecase "CU-04 Confirmar o\nrechazar cita" as CU04
+  usecase "CU-05 Reagendar cita" as CU05
+  usecase "CU-08 Administrar cuentas" as CU08
+  usecase "CU-06 Registrar sesiones\n«versión 2»" as CU06 #eeeeee
+  usecase "CU-09 Generar reportes\n«versión 2»" as CU09 #eeeeee
+}
+P --> CU11
+P --> CU01
+P --> CU07
+P --> CU02
+E --> CU07
+E --> CU03
+E --> CU04
+E --> CU02
+A --> CU08
+E ..> CU06
+A ..> CU09
+CU01 ..> CU10 : <<include>>
+CU03 ..> CU10 : <<include>>
+CU08 ..> CU10 : <<include>>
+CU02 .> CU07 : <<extend>>
+CU05 .> CU07 : <<extend>>
+note "Casos en gris: acordados con el\ncentro para la versión 2." as N1
+@enduml

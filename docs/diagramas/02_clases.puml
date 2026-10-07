@@ -1,0 +1,82 @@
+@startuml
+!include _estilo.iuml
+hide empty members
+
+abstract class AbstractUser <<Django>> {
+  - username: String
+  - password: String {hash PBKDF2}
+  - is_active: bool
+  + set_password(clave): void
+  + check_password(clave): bool
+}
+class Usuario {
+  - email: String {único}
+  - rol: String
+  - telefono: String
+  - rut: String
+  - nombre_tutor: String
+  - fecha_consentimiento: DateTime
+  - especialidad: String
+  + eliminar_datos_personales(): void
+}
+class RegistroAuditoria {
+  - fecha: DateTime
+  - correo: String
+  - accion: String
+  - detalle: String
+  - ip: String
+}
+class CentroTerapeutico <<Singleton>> {
+  - nombre: String
+  - horas_minimas_cancelacion: int = 24
+  - duracion_bloque: int = 45
+  + save(): void  {id siempre = 1}
+  + {static} obtener(): CentroTerapeutico
+}
+class BloqueHorario {
+  - inicio: DateTime
+  - fin: DateTime
+  - disponible: bool
+}
+class Cita {
+  - estado: String
+  - motivo_consulta: String
+  - motivo_respuesta: String
+  - creada: DateTime
+  + {static} solicitar(paciente, bloque_id, motivo): Cita
+  + confirmar(especialista): void
+  + rechazar(especialista, motivo): void
+  + cancelar(actor, motivo): void
+  + reagendar(especialista, nuevo_bloque_id): void
+  + esta_activa(): bool
+  + horas_que_faltan(): float
+}
+class Notificacion {
+  - mensaje: String
+  - leida: bool
+  - fecha: DateTime
+}
+class Ficha <<versión 2>> #eeeeee {
+  - observaciones: String
+}
+
+AbstractUser <|-- Usuario : herencia
+Usuario "1" *-- "0..*" BloqueHorario : publica >
+Usuario "1" -- "0..*" Cita : solicita >
+BloqueHorario "1" -- "0..*" Cita : se reserva en >
+Usuario "1" -- "0..*" Notificacion : recibe >
+Usuario "0..1" -- "0..*" RegistroAuditoria : genera >
+CentroTerapeutico ..> Cita : reglas (24 h)
+CentroTerapeutico "1" o-- "0..*" Usuario : especialistas
+Usuario "1" *-- "0..1" Ficha
+note right of Usuario
+  Un solo modelo para los 3 roles:
+  PACIENTE, ESPECIALISTA, ADMINISTRADOR.
+  Los campos de paciente o especialista
+  quedan vacíos si no corresponden.
+end note
+note bottom of BloqueHorario
+  Composición: si se elimina al especialista,
+  se eliminan sus bloques (CASCADE).
+end note
+@enduml
